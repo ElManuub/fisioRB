@@ -68,6 +68,8 @@ class AppointmentDetailController extends Controller
 
     public function total(Request $request)
     {
+        //dd($request);
+
         try {
             // Validar los datos de entrada
             $request->validate(
@@ -97,13 +99,15 @@ class AppointmentDetailController extends Controller
                 'total' => $request->total
             ]);
 
+         //   dd($consulta);
+
             //cambiar estado de la cita
             $status = Appointment::find($request->appointment_id);
 
             if ($status) {
-                $status->status = 'completo'; // Cambia el estado a "completo"
-                $status->updated_at = now(); // Actualiza la fecha de actualización
-                $status->save(); // Guarda los cambios en la base de datos
+                $status->status = 'completo'; 
+                $status->updated_at = now(); 
+                $status->save(); 
             }
 
             // Redirigir de nuevo con un mensaje de éxito
@@ -134,11 +138,13 @@ class AppointmentDetailController extends Controller
                 ->with(['appointment.patient'])
                 ->get();
 
+
             return response()->json([
                 'data' => $consultations,
                 'error' => null,
                 'message' => 'Citas extraídas con éxito.'
             ], 200);
+            
         } catch (ValidationException $err) {
             return response()->json([
                 'message' => 'Error en la validación.',

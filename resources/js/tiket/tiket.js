@@ -36,7 +36,7 @@ checks.forEach(terapia => {
 });
 
 // Evento para el extra
-extra.addEventListener('change', (monto) => {
+extra.addEventListener('input', (monto) => {
   const extraValue = parseFloat(monto.target.value) || 0;
   // Si el valor es mayor a 0, lo sumamos, sino restamos el valor previo
   subtotal += extraValue - (parseFloat(extra.dataset.previousValue) || 0);

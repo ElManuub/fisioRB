@@ -173,21 +173,24 @@ document.getElementById('search-income-form').addEventListener('submit', async (
 
     if (response.ok) {
       const result = await response.json();
+
+      console.log(result);
+
       const incomeInfoTableBody = document.getElementById('income-info'); // Obtener el tbody de la tabla
       incomeInfoTableBody.innerHTML = ''; // Limpiar resultados anteriores
       let subTotal = 0;
 
       // Numerar las citas
       result.data.forEach((appointmentDetail, index) => {
-        const { appointment, total } = appointmentDetail;
-        const patientName = appointment.patient.name; // Nombre del paciente
-        const appointmentDate = appointment.date; // Fecha de la cita
+        const {appointment, total, date } = appointmentDetail;
+        const patientName = appointment.patient.name; 
+        const dateNow = new Date(date);
 
         incomeInfoTableBody.innerHTML += `
                   <tr>
                       <td class="border border-gray-300 p-2">${index + 1}</td> <!-- Numeración -->
                       <td class="border border-gray-300 p-2">${patientName}</td>
-                      <td class="border border-gray-300 p-2">${appointmentDate}</td>
+                      <td class="border border-gray-300 p-2">${dateNow.toLocaleDateString('en-CA')}</td>
                       <td class="border border-gray-300 p-2">$${total}</td>
                   </tr>
               `;
