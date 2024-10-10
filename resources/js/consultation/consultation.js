@@ -14,6 +14,9 @@ const editClient = document.querySelector('#client-div-edit');
 const tableIncome = document.querySelector('#income-form-div');
 const editAppointment = document.querySelector('#appointment-div-consult');
 
+//link
+const link = 'http://127.0.0.1:8000';
+
 //selector
 document.getElementById('select-type').addEventListener('change', function () {
 
@@ -82,7 +85,7 @@ document.getElementById('search-client').addEventListener('click', async () => {
   const dataForm = new FormData(formClient);
 
   try {
-    const response = await fetch('http://127.0.0.1:8000/showPatient', {
+    const response = await fetch(`${link}/showPatient`, {
       method: 'POST',
       body: dataForm,
       headers: {
@@ -122,7 +125,7 @@ document.getElementById('search-client-edit').addEventListener('click', async ()
   const dataForm = new FormData(formClientEdit);
 
   try {
-    const response = await fetch('http://127.0.0.1:8000/editPatient', {
+    const response = await fetch(`${link}/editPatient`, {
       method: 'POST',
       body: dataForm,
       headers: {
@@ -158,7 +161,7 @@ document.getElementById('search-income-form').addEventListener('submit', async (
   divIncome.classList.add('hidden');
 
   try {
-    const response = await fetch('http://127.0.0.1:8000/income/appointments', {
+    const response = await fetch(`${link}/income/appointments`, {
       method: 'POST',
       headers: {
         'Accept': 'application/json',
@@ -222,7 +225,7 @@ document.getElementById('appointment-form').addEventListener('submit', async (ev
   const appointmentsTable = document.querySelector('#appointments-info');
 
   try {
-    const response = await fetch('http://127.0.0.1:8000/consultation/appointments', {
+    const response = await fetch(`${link}/consultation/appointments`, {
       method: 'POST',
       headers: {
         'Accept': 'application/json',

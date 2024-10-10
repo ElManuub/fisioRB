@@ -13,6 +13,9 @@ document.addEventListener('DOMContentLoaded', function () {
   const formEdit = document.querySelector('#client-edit-appointment-modal');
   const formAppointment = document.getElementById('client-new-appointment');
 
+  //link
+  const link = 'http://127.0.0.1:8000';
+
   //calendario y funciones
   let calendar = new Calendar(calendarEl, {
     plugins: [dayGridPlugin, timeGridPlugin, listPlugin, interactionPlugin],
@@ -59,7 +62,7 @@ document.addEventListener('DOMContentLoaded', function () {
 
     height: 'auto',
 
-    events: "http://127.0.0.1:8000/showAppointments",
+    events: `${link}/showAppointments`,
   
 
     //cambiar el color del evento
@@ -93,7 +96,7 @@ document.addEventListener('DOMContentLoaded', function () {
       const idAppointment = event.event._def.publicId;
 
       try {
-        const response = await fetch(`http://127.0.0.1:8000/showAppointments/${idAppointment}`, {
+        const response = await fetch(`${link}/showAppointments/${idAppointment}`, {
           method: 'GET',
           headers: {
             'Content-Type': 'application/json',
@@ -132,7 +135,7 @@ document.addEventListener('DOMContentLoaded', function () {
     const data = new FormData(formExist);
 
     try {
-      const response = await fetch('http://127.0.0.1:8000/showPatient', {
+      const response = await fetch(`${link}/showPatient`, {
         method: 'POST',
         body: data
       });
@@ -167,7 +170,7 @@ document.addEventListener('DOMContentLoaded', function () {
     const data = new FormData(formNoExist);
 
     try {
-      const response = await fetch('http://127.0.0.1:8000/storePatient', {
+      const response = await fetch(`${link}/storePatient`, {
         method: 'POST',
         body: data
       });
@@ -203,7 +206,7 @@ document.addEventListener('DOMContentLoaded', function () {
   document.querySelector('#btn-appointment').addEventListener('click', async () => {
     const data = new FormData(formAppointment);
     try {
-      const response = await fetch('http://127.0.0.1:8000/storeAppointment', {
+      const response = await fetch(`${link}/storeAppointment`, {
         method: 'POST',
         body: data,
         headers: {
@@ -241,7 +244,7 @@ document.addEventListener('DOMContentLoaded', function () {
     const id = formEdit.querySelector('input[id="appointment_id"]').value;
 
     try {
-      const response = await fetch(`http://127.0.0.1:8000/editAppointments/${id}`, {
+      const response = await fetch(`${link}/editAppointments/${id}`, {
         body: data,
         method: 'POST',
         headers: {
@@ -279,7 +282,7 @@ document.addEventListener('DOMContentLoaded', function () {
     }
 
     try {
-      const response = await fetch(`http://127.0.0.1:8000/destroyAppointments/${id}`, {
+      const response = await fetch(`${link}/destroyAppointments/${id}`, {
         body: data,
         method: 'DELETE',
         headers: {
