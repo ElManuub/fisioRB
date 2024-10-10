@@ -15,7 +15,10 @@ class OfficerSeeder extends Seeder
     {
         $officer = new Office();
         $officer->name = 'Chapalita';
-        $officer->address = 'Chapalita #21';
+        $officer->address = 'Del parque #440';
+        $officer->town = 'Zapopan Jal.';
+        $officer->colony = 'chapalita oriente';
+        $officer->postalCode = '45040';
         $officer->phone_number = '3320586138';
         $officer->save();
     }

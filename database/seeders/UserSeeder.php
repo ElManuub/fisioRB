@@ -22,12 +22,5 @@ class UserSeeder extends Seeder
         $user->office_id = 1;
         $user->save();
 
-        $user = new User();
-        $user->name = 'Karla Ramirez';
-        $user->email = 'manuub@pro.com';
-        $user->password = Hash::make('12345678');
-        $user->role = 2;
-        $user->office_id = 1;
-        $user->save();
     }
 }

@@ -12,7 +12,10 @@ class Office extends Model
     protected $fillable = [
         'name',
         'address',
-        'phone_number'
+        'town',
+        'colony',
+        'phone_number',
+        'postalCode'
     ];
 
     public function users(){

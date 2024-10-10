@@ -26,10 +26,11 @@
             <!-- Office -->
             <div class="mt-2">
                 <select class='border-gray-300 block focus:border-indigo-500 focus:ring-indigo-500 rounded-md shadow-sm' name='office_id'>
-                    <option value="">Selecciona Sucursal</option>
-                    <option value="1">Chapalita</option>
+                <option value="">Selecciona Sucursal</option>    
+                @foreach ($offices as $office)
+                <option value="{{ $office['id'] }}">{{ $office['name']}}</option>
+                    @endforeach
                 </select>
-
             </div>
 
             <!-- Tipo de usuario -->
