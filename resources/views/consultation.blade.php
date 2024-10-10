@@ -12,7 +12,7 @@
     <select id="select-type" name="type" class="lg:w-1/2 sm:w-full md:w-1/2 text-sm text-black bg-white border border-b-2 border-gray-300 appearance-none focus:outline-none focus:ring-0 focus:border-blue-600 peer rounded-md" required>
       <option value="" selected disabled>Selecciona</option>
       <option value="clientes">Clientes</option>
-      <option value="consultas">Consultas</option>
+     <!-- <option value="consultas">Consultas</option> -->
       <option value="citas">Citas</option>
       <option value="ingresos">Ingresos</option>
     </select>

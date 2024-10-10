@@ -11,11 +11,9 @@ class User extends Authenticatable
 {
     use HasFactory, Notifiable;
 
-    /**
-     * The attributes that are mass assignable.
-     *
-     * @var array<int, string>
-     */
+    const ROLE_ADMINISTRADOR = '1';
+    CONST ROLE_EMPLOYEE = '2';
+    
     protected $fillable = [
         'name',
         'email',

@@ -21,6 +21,11 @@
                     <x-nav-link :href="route('consultation.appointments')" :active="request()->routeIs('consultation.appointments')">
                         {{ __('Consular') }}
                     </x-nav-link>
+                    @can('register-employees')
+                    <x-nav-link :href="route('register')" :active="request()->routeIs('register')">
+                        {{ __('Registro') }}
+                    </x-nav-link>
+                    @endcan
                 </div>
             </div>
 
