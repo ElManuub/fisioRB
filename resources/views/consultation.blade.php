@@ -85,10 +85,11 @@
       <form id="appointment-form">
         @csrf
         <select id="select-type" name="type" class="lg:w-1/2 sm:w-full text-sm text-black bg-white border border-b-2 border-gray-300 appearance-none focus:outline-none focus:ring-0 focus:border-blue-600 peer rounded-md" required>
-          <option value="" selected disabled>Selecciona</option>
-          <option value="">General</option>
-          <option value="1">Manuel</option>
-          <option value="2">David</option>
+        <option value="" selected disabled>Selecciona</option>
+        <option value="">General</option>
+        @foreach ($therapists as $therapist)
+        <option value="{{ $therapist['id'] }}">{{ $therapist['name'] }}</option> 
+        @endforeach  
         </select>
         <label for="appointment_date_inicio" class="block mt-4 text-sm font-medium text-gray-700">Fecha inicio:</label>
         <input type="date" name="consultation_date_inicio" id="appointment_date_inicio" class="w-full mt-1 p-2 border border-gray-300 rounded-lg" required>

@@ -4,6 +4,8 @@ namespace App\Http\Controllers;
 
 use App\Models\Appointment;
 use App\Models\Appointment_detail;
+use App\Models\Office;
+use App\Models\User;
 use Dotenv\Exception\ValidationException;
 use Exception;
 use Illuminate\Http\Request;
@@ -120,9 +122,16 @@ class AppointmentDetailController extends Controller
     }
 
     public function consultation()
-    {
-        return view('consultation');
-    }
+{
+    // Encuentra la oficina a la que pertenece el usuario autenticado
+    $office = Office::find(auth()->user()->office_id);
+
+    // Encuentra todos los terapeutas en la misma oficina
+    $therapists = User::where('office_id', $office->id)->get();
+
+    // Retorna la vista con la lista de terapeutas
+    return view('consultation')->with('therapists', $therapists);
+}
 
     public function showConsultations(Request $request)
     {
@@ -144,7 +153,7 @@ class AppointmentDetailController extends Controller
                 'error' => null,
                 'message' => 'Citas extraídas con éxito.'
             ], 200);
-            
+
         } catch (ValidationException $err) {
             return response()->json([
                 'message' => 'Error en la validación.',

@@ -25,7 +25,7 @@
 
             <!-- Office -->
             <div class="mt-2">
-                <select class='border-gray-300 block focus:border-indigo-500 focus:ring-indigo-500 rounded-md shadow-sm' name='office_id'>
+                <select class='w-full border-gray-300 block focus:border-indigo-500 focus:ring-indigo-500 rounded-md shadow-sm' name='office_id'>
                 <option value="">Selecciona Sucursal</option>    
                 @foreach ($offices as $office)
                 <option value="{{ $office['id'] }}">{{ $office['name']}}</option>
@@ -35,7 +35,7 @@
 
             <!-- Tipo de usuario -->
             <div class="mt-4">
-                <select class='border-gray-300 block mt-1 focus:border-indigo-500 focus:ring-indigo-500 rounded-md shadow-sm' name='role'>
+                <select class='w-full border-gray-300 block mt-1 focus:border-indigo-500 focus:ring-indigo-500 rounded-md shadow-sm' name='role'>
                     <option value="">Selecciona el tipo de usuario a registrar</option>
                     <option value="1">Administrador</option>
                     <option value="2">Terapeuta</option>
