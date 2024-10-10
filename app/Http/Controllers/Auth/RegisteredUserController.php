@@ -37,6 +37,7 @@ class RegisteredUserController extends Controller
         $request->validate([
             'name' => ['required', 'string', 'max:255'],
             'office_id' => ['required', 'in:1,2'],
+            'role' => ['required', 'in:1,2'],
             'email' => ['required', 'string', 'lowercase', 'email', 'max:255', 'unique:' . User::class],
             'password' => ['required', 'confirmed', Rules\Password::defaults()],
         ]);
@@ -46,14 +47,12 @@ class RegisteredUserController extends Controller
             'name' => $request->name,
             'email' => $request->email,
             'office_id' => $request->office_id,
+            'role' => $request->role,
             'password' => Hash::make($request->password),
         ]);
 
         // Disparar el evento de registro
         event(new Registered($user));
-
-        // Iniciar sesión con el nuevo usuario (opcional)
-        Auth::login($user);
 
         // Redirigir al dashboard
         return redirect(route('dashboard', absolute: false));
