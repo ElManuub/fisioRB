@@ -4,7 +4,8 @@
             {{ __('Registro de nuevos usuarios') }}
         </h2>
     </x-slot>
-    <div class="w-full mx-auto sm:max-w-md mt-6 mb-4 px-6 py-4 bg-white shadow-md overflow-hidden sm:rounded-lg">
+
+    <div class="w-full mx-auto sm:max-w-md mt-6 mb-4 px-6 py-4 bg-white shadow-md overflow-hidden sm:rounded-lg" id="register-account">
 
         <form method="POST" action="{{ route('register') }}">
             @csrf

@@ -88,7 +88,9 @@
         <option value="" selected disabled>Selecciona</option>
         <option value="">General</option>
         @foreach ($therapists as $therapist)
+        @if ($therapist['status'] === 'activo')
         <option value="{{ $therapist['id'] }}">{{ $therapist['name'] }}</option> 
+        @endif
         @endforeach  
         </select>
         <label for="appointment_date_inicio" class="block mt-4 text-sm font-medium text-gray-700">Fecha inicio:</label>
