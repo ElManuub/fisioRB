@@ -14,8 +14,10 @@ class User extends Authenticatable
     const ROLE_ADMINISTRADOR = '1';
     CONST ROLE_EMPLOYEE = '2';
     
+    
     protected $fillable = [
         'name',
+        'status',
         'email',
         'password',
         'role',
