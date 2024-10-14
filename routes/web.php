@@ -5,6 +5,7 @@ use App\Http\Controllers\PatientController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\AppointmentController;
 use App\Http\Controllers\AppointmentDetailController;
+use App\Http\Controllers\UserController;
 
 Route::get('/', function () {
     return view('dashboard');
@@ -15,7 +16,6 @@ Route::middleware('auth')->group(function () {
     //edit profile
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
     Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
-    Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
 
     //Details of appointments
     Route::get('/details', [AppointmentDetailController::class, 'index'])->name('details');
@@ -42,6 +42,8 @@ Route::middleware('auth')->group(function () {
     Route::post('income/appointments', [AppointmentDetailController::class, 'showConsultations'])->name('income.appointments');
     Route::post('consultation/appointments', [AppointmentController::class, 'consultAppointment'])->name('appointments');
 
+    //delete account
+    Route::post('/account/delete', [UserController::class, 'deleteUser'])->name('account.deleteUser');
     
 });
 

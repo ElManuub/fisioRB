@@ -12,6 +12,7 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Gate;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Validation\Rules;
+use Illuminate\Validation\ValidationException;
 use Illuminate\View\View;
 
 class RegisteredUserController extends Controller
@@ -34,9 +35,10 @@ class RegisteredUserController extends Controller
      * @throws \Illuminate\Validation\ValidationException
      */
     public function store(Request $request): RedirectResponse
-    {
-
+{
+    try {
         Gate::authorize('register-employees');
+
         // Validación de la solicitud
         $request->validate([
             'name' => ['required', 'string', 'max:255'],
@@ -58,7 +60,15 @@ class RegisteredUserController extends Controller
         // Disparar el evento de registro
         event(new Registered($user));
 
-        // Redirigir al dashboard
-        return redirect(route('dashboard', absolute: false));
+        // Redirigir al dashboard con mensaje de éxito
+        return redirect()->back()->with('success', 'Usuario agregado con éxito.');
+    }catch (ValidationException $err) {
+        // Manejo de errores
+        return redirect()->back()->withErrors($err->validator)->withInput();
+    } catch (\Throwable $th) {
+        // Manejo de errores
+        return redirect()->back()->with('error', 'Ocurrió un error al agregar el usuario: ' . $th->getMessage());
     }
+}
+
 }
