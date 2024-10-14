@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\Patient;
 use App\Models\Appointment;
 use App\Models\Office;
+use App\Models\User;
 use Illuminate\Http\Request;
 use Carbon\Exceptions\Exception;
 use Illuminate\Validation\ValidationException;
@@ -170,6 +171,7 @@ class AppointmentController extends Controller
 
       $data->load(['patient.office', 'user']);
 
+
       $patient = [
         "appointment_id" => $data->id,
         "date" => $data->date,
@@ -179,6 +181,7 @@ class AppointmentController extends Controller
         "patient" => $data->patient->name,
         "id" => $data->patient_id,
         "phone_number" => $data->patient->phone_number,
+        "user_id" => $data->user_id
       ];
 
       return response()->json([
@@ -229,7 +232,8 @@ class AppointmentController extends Controller
         'note' => 'nullable|string|max:255',
         'start_time' => 'required|string|date_format:H:i',
         'end_time' => 'required|string|date_format:H:i|after:start_time',
-        'patient_id' => 'required|integer'
+        'patient_id' => 'required|integer',
+        'user_id' => 'required|integer'
       ]);
 
       // Encontrar la cita por ID
@@ -238,20 +242,31 @@ class AppointmentController extends Controller
       if($appointment->status == 'completo'){
         return response()->json([
           'data' => null,
-          'error' => 'nu puedes editar citas en status completo.',
+          'error' => 'no puedes editar citas en status completo.',
           'message' => 'No puedes editar una cita con estatus "Completo".'
         ], 500);
       }
 
       if ($appointment !== null) {
-        // Actualizar los datos de la cita
-        $appointment->update($request->all());
+        // Verificar si el usuario existe y está activo
+        $user = User::find($request->user_id);
+
+        if (!$user || $user->status !== 'activo') {
+            return response()->json([
+                'message' => 'ID de Terapeuta no existe o no está activo, favor de revisar',
+                'data' => null,
+                'error' => 'user_id no válido o inactivo'
+            ], 404);
+        }
+        
+
 
         return response()->json([
           'message' => 'Actualización realizada con éxito',
           'data' => $appointment,
           'error' => null
         ], 200);
+
       }  else {
         return response()->json([
           'message' => 'Cita no encontrada',

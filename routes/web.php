@@ -44,6 +44,7 @@ Route::middleware('auth')->group(function () {
 
     //delete account
     Route::post('/account/delete', [UserController::class, 'deleteUser'])->name('account.deleteUser');
+    Route::post('/users', [UserController::class, 'users'])->name('users');
     
 });
 

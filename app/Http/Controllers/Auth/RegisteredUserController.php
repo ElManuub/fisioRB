@@ -25,8 +25,9 @@ class RegisteredUserController extends Controller
         Gate::authorize('register-employees');
 
         $offices = Office::all(); //offices
+        $users = User::all();
 
-        return view('auth.register')->with('offices', $offices);
+        return view('auth.register')->with(['offices' => $offices, 'users' => $users]);
     }
 
     /**

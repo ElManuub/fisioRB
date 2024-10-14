@@ -110,6 +110,7 @@ document.addEventListener('DOMContentLoaded', function () {
 
           ModalEdit.classList.remove('hidden');
           document.querySelector('#patient_edit').value = dataResponse.data.patient;
+          document.querySelector('#user_id').value = dataResponse.data.user_id;
           document.querySelector('#phone_edit').value = dataResponse.data.phone_number || '';
           document.querySelector('#client_id_edit').value = dataResponse.data.id || '';
           document.querySelector('#appointment-date-edit').value = dataResponse.data.date || '';
@@ -239,7 +240,6 @@ document.addEventListener('DOMContentLoaded', function () {
   document.querySelector('#btn-update-edit').addEventListener('click', async (e) => {
     const data = new FormData(formEdit);
     e.preventDefault();
-
 
     const id = formEdit.querySelector('input[id="appointment_id"]').value;
 

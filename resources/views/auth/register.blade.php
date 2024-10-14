@@ -27,7 +27,7 @@
         {{ session('error') }}
     </div>
     @endif
-    
+
     <!-- Mostrar errores de registro, si existen -->
     @if ($errors->any())
     <div class="text-red-600 bg-red-100 border border-red-300 rounded-md p-4 max-w-md mx-auto text-center my-4">
@@ -104,8 +104,8 @@
     </div>
 
     <!-- Form for Deleting User -->
-    <div class="mt-4 p-4 sm:p-8 bg-white shadow w-1/2 mx-auto sm:rounded-lg hidden" id="delete-account">
-        <div class="max-w-xl">
+    <div class="mt-4 p-4 sm:p-2 bg-white shadow w-full sm:w-1/2 mx-auto sm:rounded-lg hidden" id="delete-account">
+        <div class="max-w-xl w-full">
             <form method="post" action="{{ route('account.deleteUser') }}" class="p-6">
                 @csrf
                 @method('POST')
@@ -128,11 +128,46 @@
 
                 <div class="mt-6 flex justify-end">
                     <x-secondary-button x-on:click="$dispatch('close')">{{ __('Cancelar') }}</x-secondary-button>
-                    <x-danger-button class="ms-3">{{ __('Eliminar cuenta de empleado') }}</x-danger-button>
+                    <x-danger-button class="ms-3">{{ __('Dar de baja') }}</x-danger-button>
                 </div>
             </form>
         </div>
-
     </div>
+
+    <!-- Consulta de usuarios -->
+    <div class="mt-4 p-4 sm:p-2 w-full mx-auto sm:rounded-lg bg-red hidden" id="consult-account">
+        <div class="max-w-xl w-full overflow-x-auto mx-auto">
+            @if ($users ?? null)
+            <table class="min-w-full border-collapse bg-white">
+                <thead class="bg-gray-200">
+                    <tr>
+                        <th class="border-b border-gray-300 px-4 py-2 text-left text-sm font-semibold text-gray-800">ID</th>
+                        <th class="border-b border-gray-300 px-4 py-2 text-left text-sm font-semibold text-gray-800">Nombre</th>
+                        <th class="border-b border-gray-300 px-4 py-2 text-left text-sm font-semibold text-gray-800">Sucursal</th>
+                        <th class="border-b border-gray-300 px-4 py-2 text-left text-sm font-semibold text-gray-800">Estatus</th>
+                        <th class="border-b border-gray-300 px-4 py-2 text-left text-sm font-semibold text-gray-800">Rol</th>
+                    </tr>
+                </thead>
+                <tbody class="bg-white">
+                    @foreach ($users as $user)
+                    <tr class="hover:bg-gray-100 transition-colors duration-200">
+                        <td class="border-b border-gray-300 px-4 py-2 text-sm text-gray-800">{{ $user->id }}</td>
+                        <td class="border-b border-gray-300 px-4 py-2 text-sm text-gray-800">{{ $user->name }}</td>
+                        <td class="border-b border-gray-300 px-4 py-2 text-sm text-gray-800">{{ $user->office->name ?? 'N/A' }}</td>
+                        <td class="border-b border-gray-300 px-4 py-2 text-sm text-gray-800">{{ $user->status }}</td>
+                        <td class="border-b border-gray-300 px-4 py-2 text-sm text-gray-800">{{ ($user->role == '1' ) ? 'Admin' : 'Terapeuta' }}</td>
+                    </tr>
+                    @endforeach
+                </tbody>
+            </table>
+            @else
+            <div class="text-center py-4 text-gray-500">No hay usuarios disponibles.</div>
+            @endif
+        </div>
+    </div>
+
+
+
+
 
 </x-app-layout>

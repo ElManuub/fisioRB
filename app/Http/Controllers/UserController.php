@@ -34,7 +34,6 @@ class UserController extends Controller
             // Verificar si el usuario existe y si la contraseña es correcta
             if ($user && Hash::check($validacion['password'], auth()->user()->password)) {
                 $user->status = 'inactivo';
-                $user->email = '';
                 $user->save(); // Guardar los cambios
                 
                 return redirect()->route('register')
@@ -50,6 +49,5 @@ class UserController extends Controller
         }
     }
     
-
     
 }

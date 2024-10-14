@@ -78,7 +78,7 @@
                                     <label for="client_id" class="block text-sm font-medium text-gray-700">ID:</label>
                                     <input type="text" name="patient_id" id="client_id" class="w-full mt-1 p-2 border border-gray-300 rounded-lg" readonly>
 
-                                    <label for="new-name" class="block mt-4 text-sm font-medium text-gray-700">Nombre:</label>
+                                    <label for="new-name" class="block mt-4 text-sm font-medium text-gray-700">Paciente:</label>
                                     <input type="text" name="name" id="new-name" class="w-full mt-1 p-2 border border-gray-300 rounded-lg" readonly>
 
                                     <label for="new-phone" class="block mt-4 text-sm font-medium text-gray-700">Número de teléfono:</label>
@@ -123,14 +123,17 @@
                         <h3 class="text-base font-semibold leading-6 text-center">Cita</h3>
                         <div class="grid gap-4 mt-4">
                             <div>
-                                <label for="client_id_edit" class="block text-sm font-medium text-gray-700">ID:</label>
-                                <input style="background-color:lightgrey;" type="text" name="patient_id" id="client_id_edit" class="w-full mt-1 p-2 border border-gray-300 rounded-lg" readonly>
+                                <!-- id patient -->
+                                <input style="background-color:lightgrey;" type="text" name="patient_id" id="client_id_edit" class="hidden" readonly>
 
                                 <label for="patient_edit" class="block text-sm font-medium text-gray-700 mt-4">Paciente:</label>
                                 <input style="background-color:lightgrey;" type="text" name="patient" id="patient_edit" class="w-full mt-1 p-2 border border-gray-300 rounded-lg" readonly>
 
                                 <label for="phone_edit" class="block text-sm font-medium text-gray-700 mt-4">Número de teléfono:</label>
                                 <input style="background-color:lightgrey;" type="text" name="phone_number" min="10" max="10" id="phone_edit" class="w-full mt-1 p-2 border border-gray-300 rounded-lg" readonly>
+
+                                <label for="user_id" class="block text-sm font-medium text-gray-700 mt-4">ID Terapeuta:</label>
+                                <input type="text" name="user_id" id="user_id" class="w-full mt-1 p-2 border border-gray-300 rounded-lg">
 
                                 <label for="appointment-date-edit" class="block text-sm font-medium text-gray-700 mt-4">Fecha:</label>
                                 <input type="date" name="date" id="appointment-date-edit" class="w-full mt-1 p-2 border border-gray-300 rounded-lg">
@@ -146,7 +149,6 @@
 
                                 <input type="text" name="appointment_id" id="appointment_id" class="hidden">
 
-                                <input name="user_id" value="{{ auth()->user()->id }}" hidden>
                             </div>
                         </div>
                         <div class="px-4 py-3 mt-6 sm:flex sm:flex-row-reverse gap-4">
