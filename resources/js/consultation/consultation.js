@@ -186,13 +186,17 @@ document.getElementById('search-income-form').addEventListener('submit', async (
       // Numerar las citas
       result.data.forEach((appointmentDetail, index) => {
         const {appointment, total, date } = appointmentDetail;
-        const patientName = appointment.patient.name; 
+        const patientName = appointment.patient.name;
+        const userName = appointment.user.name; 
+        const office = appointment.user.office.name; 
         const dateNow = new Date(date);
 
         incomeInfoTableBody.innerHTML += `
                   <tr>
                       <td class="border border-gray-300 p-2">${index + 1}</td> <!-- Numeración -->
                       <td class="border border-gray-300 p-2">${patientName}</td>
+                      <td class="border border-gray-300 p-2">${userName}</td>
+                      <td class="border border-gray-300 p-2">${office}</td>
                       <td class="border border-gray-300 p-2">${dateNow.toLocaleDateString('en-CA')}</td>
                       <td class="border border-gray-300 p-2">$${total}</td>
                   </tr>
@@ -200,9 +204,9 @@ document.getElementById('search-income-form').addEventListener('submit', async (
         subTotal += parseFloat(total);
       });
       incomeInfoTableBody.innerHTML +=
-        `<tr><td></td><td></td>
-          <td class="border border-gray-300 p-2 bg-gray-200">Total</td>
-          <td class="border border-gray-300 p-2">$${parseFloat(subTotal)}</td>
+        `<tr>
+          <td colspan="5" class="border border-gray-300 p-2 bg-gray-200">Total</td>
+          <td class="border border-gray-300 p-2">$${parseFloat(subTotal).toFixed(2)}</td>
           </tr>`
 
     } else {

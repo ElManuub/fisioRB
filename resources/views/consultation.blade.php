@@ -144,12 +144,17 @@
   <!-- consultas para ingresos -->
   <div id="income-form-div" class="flex flex-col items-center justify-center py-2 gap-6 hidden">
     <h3 class="text-base font-semibold leading-6 text-center mt-4">Ingresos:</h3>
-    <div class="grid gap-4 mt-4 grid-cols-1 border rounded-md p-4 w-full sm:w-full lg:w-1/2 bg-white">
+    <div>
+      <x-primary-button><a target="_blank" href="{{ route('pdf')}}" class="">Exportar PDF</a></x-primary-button>
+    </div>
+    <div class="grid gap-4 mt-4 grid-cols-1 border rounded-md lg:p-4 w-full sm:w-full lg:w-1/2 bg-white">
       <table id="income-table" class="min-w-full border-collapse border border-gray-300">
         <thead>
           <tr class="bg-gray-200">
-            <th class="border border-gray-300 p-2">Num</th>
-            <th class="border border-gray-300 p-2">Nombre</th>
+            <th class="border border-gray-300 p-2">No</th>
+            <th class="border border-gray-300 p-2">Paciente</th>
+            <th class="border border-gray-300 p-2">Teraputa</th>
+            <th class="border border-gray-300 p-2">Sucursal</th>
             <th class="border border-gray-300 p-2">Fecha</th>
             <th class="border border-gray-300 p-2">Total</th>
           </tr>
@@ -160,6 +165,5 @@
       </table>
     </div>
   </div>
-
 
 </x-app-layout>

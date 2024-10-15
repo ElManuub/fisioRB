@@ -5,6 +5,7 @@ use App\Http\Controllers\PatientController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\AppointmentController;
 use App\Http\Controllers\AppointmentDetailController;
+use App\Http\Controllers\PDFController; 
 use App\Http\Controllers\UserController;
 
 Route::get('/', function () {
@@ -45,6 +46,9 @@ Route::middleware('auth')->group(function () {
     //delete account
     Route::post('/account/delete', [UserController::class, 'deleteUser'])->name('account.deleteUser');
     Route::post('/users', [UserController::class, 'users'])->name('users');
+    
+    //export PDF
+    Route::get('pdf', [AppointmentDetailController::class, 'imprimir'])->name('pdf');
     
 });
 

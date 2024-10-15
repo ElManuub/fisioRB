@@ -6,12 +6,17 @@ use App\Models\Appointment;
 use App\Models\Appointment_detail;
 use App\Models\Office;
 use App\Models\User;
+use Barryvdh\DomPDF\Facade\Pdf;
 use Dotenv\Exception\ValidationException;
 use Exception;
 use Illuminate\Http\Request;
 
 class AppointmentDetailController extends Controller
 {
+
+    public $consultation_income;
+    public $dates;
+
     public function index()
     {
         return view('details');
@@ -101,15 +106,15 @@ class AppointmentDetailController extends Controller
                 'total' => $request->total
             ]);
 
-         //   dd($consulta);
+            //   dd($consulta);
 
             //cambiar estado de la cita
             $status = Appointment::find($request->appointment_id);
 
             if ($status) {
-                $status->status = 'completo'; 
-                $status->updated_at = now(); 
-                $status->save(); 
+                $status->status = 'completo';
+                $status->updated_at = now();
+                $status->save();
             }
 
             // Redirigir de nuevo con un mensaje de éxito
@@ -122,38 +127,41 @@ class AppointmentDetailController extends Controller
     }
 
     public function consultation()
-{
-    // Encuentra la oficina a la que pertenece el usuario autenticado
-    $office = Office::find(auth()->user()->office_id);
+    {
+        // Encuentra la oficina a la que pertenece el usuario autenticado
+        $office = Office::find(auth()->user()->office_id);
 
-    // Encuentra todos los terapeutas en la misma oficina
-    $therapists = User::where('office_id', $office->id)->get();
+        // Encuentra todos los terapeutas en la misma oficina
+        $therapists = User::where('office_id', $office->id)->get();
 
-    // Retorna la vista con la lista de terapeutas
-    return view('consultation')->with('therapists', $therapists);
-}
+        // Retorna la vista con la lista de terapeutas
+        return view('consultation')->with('therapists', $therapists);
+    }
 
     public function showConsultations(Request $request)
     {
         try {
             // Validar las fechas recibidas
-            $dates = $request->validate([
+            $this->dates = $request->validate([
                 'start_date' => 'required|date',
                 'end_date' => 'required|date|after_or_equal:start_date'
             ]);
 
             // Extraer las citas entre las fechas seleccionadas
-            $consultations = Appointment_detail::whereBetween('date', [$dates['start_date'], $dates['end_date']])
-                ->with(['appointment.patient'])
+            $this->consultation_income = Appointment_detail::whereBetween('date', [$this->dates['start_date'], $this->dates['end_date']])
+                ->with(['appointment.patient', 'appointment.user', 'appointment.user.office'])
                 ->get();
+
+            // Guardar en la sesión
+            session(['consultation_income' => $this->consultation_income]);
+            session(['dates' => $this->dates]);
 
 
             return response()->json([
-                'data' => $consultations,
+                'data' => $this->consultation_income,
                 'error' => null,
                 'message' => 'Citas extraídas con éxito.'
             ], 200);
-
         } catch (ValidationException $err) {
             return response()->json([
                 'message' => 'Error en la validación.',
@@ -168,4 +176,15 @@ class AppointmentDetailController extends Controller
             ], 500);
         }
     }
+
+    public function imprimir()
+{
+    $this->consultation_income = session('consultation_income', collect()); // Colección vacía si no existe
+    $this->dates = session('dates', collect());
+
+    //dd($this->consultation_income);
+
+    $pdf = Pdf::loadView('exports_tables.pdf', ['incomes' => $this->consultation_income, 'dates' => $this->dates]);
+    return $pdf->stream('Ingresos_'. now()->format('Y-m-d') . '.pdf');
+}
 }
