@@ -17,20 +17,20 @@
     </div>
 
     @if (session('success'))
-    <div class="text-green-600 bg-green-100 border border-green-300 rounded-md p-4 max-w-md mx-auto text-center my-4">
+    <div class="message text-green-600 bg-green-100 border border-green-300 rounded-md p-4 max-w-md mx-auto text-center my-4">
         {{ session('success') }}
     </div>
     @endif
 
     @if (session('error'))
-    <div class="text-red-600 bg-red-100 border border-red-300 rounded-md p-4 max-w-md mx-auto text-center my-4">
+    <div class="message text-red-600 bg-red-100 border border-red-300 rounded-md p-4 max-w-md mx-auto text-center my-4">
         {{ session('error') }}
     </div>
     @endif
 
     <!-- Mostrar errores de registro, si existen -->
     @if ($errors->any())
-    <div class="text-red-600 bg-red-100 border border-red-300 rounded-md p-4 max-w-md mx-auto text-center my-4">
+    <div class="message text-red-600 bg-red-100 border border-red-300 rounded-md p-4 max-w-md mx-auto text-center my-4">
         <ul>
             @foreach ($errors->all() as $error)
             <li>{{ $error }}</li>
@@ -165,9 +165,6 @@
             @endif
         </div>
     </div>
-
-
-
 
 
 </x-app-layout>
