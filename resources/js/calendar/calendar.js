@@ -24,8 +24,8 @@ document.addEventListener('DOMContentLoaded', function () {
 
     views: {
       timeGrid: {
-        slotMinTime: '00:00:00',
-        slotMaxTime: '24:00:00'
+        slotMinTime: '09:00:00',
+        slotMaxTime: '22:00:00'
       }
     },
 

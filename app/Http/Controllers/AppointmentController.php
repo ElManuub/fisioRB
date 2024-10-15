@@ -203,91 +203,93 @@ class AppointmentController extends Controller
 
   public function update(Request $request, $id)
   {
-    try {
-      $start_time = date('H:i', strtotime($request->input('start_time')));
-      $end_time = date('H:i', strtotime($request->input('end_time')));
-
-      // Actualizar el request con los horarios formateados
-      $request->merge([
-        'start_time' => $start_time,
-        'end_time' => $end_time
-      ]);
-
-      /* Definir el rango de horas permitido
-      $min_time = '09:30';
-      $max_time = '18:00';
-
-      // Verificar si las horas están dentro del rango permitido
-      if ($start_time < $min_time || $end_time > $max_time) {
-        return response()->json([
-          'error' => 'Error en asignación de horarios',
-          'data' => null,
-          'message' => 'El horario debe estar entre 09:30 y 18:00.'
-        ], 400);
-      }*/
-
-      $data = $request->validate([
-        'phone_number' => 'required|max:10',
-        'date' => 'required|date',
-        'note' => 'nullable|string|max:255',
-        'start_time' => 'required|string|date_format:H:i',
-        'end_time' => 'required|string|date_format:H:i|after:start_time',
-        'patient_id' => 'required|integer',
-        'user_id' => 'required|integer'
-      ]);
-
-      // Encontrar la cita por ID
-      $appointment = Appointment::find($id);
-
-      if($appointment->status == 'completo'){
-        return response()->json([
-          'data' => null,
-          'error' => 'no puedes editar citas en status completo.',
-          'message' => 'No puedes editar una cita con estatus "Completo".'
-        ], 500);
+      try {
+          $start_time = date('H:i', strtotime($request->input('start_time')));
+          $end_time = date('H:i', strtotime($request->input('end_time')));
+  
+          // Actualizar el request con los horarios formateados
+          $request->merge([
+              'start_time' => $start_time,
+              'end_time' => $end_time
+          ]);
+  
+          // Definir el rango de horas permitido
+          $min_time = '09:00';
+          $max_time = '22:00';
+  
+          // Verificar si las horas están dentro del rango permitido
+          if ($start_time < $min_time || $end_time > $max_time) {
+              return response()->json([
+                  'error' => 'Error en asignación de horarios',
+                  'data' => null,
+                  'message' => 'El horario debe estar entre 09:00 am y 10:00 pm.'
+              ], 400);
+          }
+  
+          $data = $request->validate([
+              'phone_number' => 'required|max:10',
+              'date' => 'required|date',
+              'note' => 'nullable|string|max:255',
+              'start_time' => 'required|string|date_format:H:i',
+              'end_time' => 'required|string|date_format:H:i|after:start_time',
+              'patient_id' => 'required|integer',
+              'user_id' => 'required|integer'
+          ]);
+  
+          // Encontrar la cita por ID
+          $appointment = Appointment::find($id);
+  
+          if ($appointment === null) {
+              return response()->json([
+                  'message' => 'Cita no encontrada',
+                  'data' => null,
+                  'error' => 'ID de cita no existe'
+              ], 404);
+          }
+  
+          if ($appointment->status === 'completo') {
+              return response()->json([
+                  'data' => null,
+                  'error' => 'no puedes editar citas en status completo.',
+                  'message' => 'No puedes editar una cita con estatus "Completo".'
+              ], 500);
+          }
+  
+          // Verificar si el usuario existe y está activo
+          $user = User::find($request->user_id);
+  
+          if (!$user || $user->status !== 'activo') {
+              return response()->json([
+                  'message' => 'ID de Terapeuta no existe o no está activo, favor de revisar',
+                  'data' => null,
+                  'error' => 'user_id no válido o inactivo'
+              ], 404);
+          }
+  
+          // Actualizar la cita con los datos validados
+          $appointment->update($request->all());
+  
+          return response()->json([
+              'message' => 'Actualización realizada con éxito',
+              'data' => $appointment,
+              'error' => null
+          ], 200);
+  
+      } catch (ValidationException $error) {
+          return response()->json([
+              'error' => $error->validator->errors(),
+              'data' => null,
+              'message' => 'Algunos datos no cumplen con los requerimientos de validación. Por favor, revisa tu información.'
+          ], 400);
+      } catch (\Throwable $error) {
+          return response()->json([
+              'error' => $error->getMessage(),
+              'data' => null,
+              'message' => 'Error al actualizar datos'
+          ], 500);
       }
-
-      if ($appointment !== null) {
-        // Verificar si el usuario existe y está activo
-        $user = User::find($request->user_id);
-
-        if (!$user || $user->status !== 'activo') {
-            return response()->json([
-                'message' => 'ID de Terapeuta no existe o no está activo, favor de revisar',
-                'data' => null,
-                'error' => 'user_id no válido o inactivo'
-            ], 404);
-        }
-        
-
-
-        return response()->json([
-          'message' => 'Actualización realizada con éxito',
-          'data' => $appointment,
-          'error' => null
-        ], 200);
-
-      }  else {
-        return response()->json([
-          'message' => 'Cita no encontrada',
-          'data' => null,
-          'error' => 'ID de cita no existe'
-        ], 404);
-      }
-    } catch (ValidationException $error) {
-      return response()->json([
-        'error' => $error->validator->errors(),
-        'data' => null,
-        'message' => 'Algunos datos no cumplen con los requerimientos de validación. Por favor, revisa tu información.'
-      ], 400);
-    } catch (\Throwable $error) {
-      return response()->json([
-        'error' => $error->getMessage(),
-        'data' => null,
-        'message' => 'Error al actualizar datos'
-      ], 500);
-    }
   }
+  
 
   public function destroy($id)
   {
