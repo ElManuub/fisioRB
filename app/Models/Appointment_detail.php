@@ -12,7 +12,8 @@ class Appointment_detail extends Model
     protected $fillable = [
         'date',
         'appointment_id',
-        'total'
+        'total',
+        'extra'
     ];
 
     public function appointment(){
@@ -20,7 +21,9 @@ class Appointment_detail extends Model
     }
 
     public function therapies(){
-        return $this->belongsToMany(Therapy::class)->withTimestamps();
+        return $this->belongsToMany(Therapy::class)
+            ->withPivot('discount_start', 'discount_end', 'discount_amount')
+            ->withTimestamps();
     }
 
 }

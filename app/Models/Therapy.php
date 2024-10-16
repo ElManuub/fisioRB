@@ -15,6 +15,8 @@ class Therapy extends Model
     ];
 
     public function appointments_details(){
-        return $this->belongsToMany(Appointment_detail::class)->withTimestamps();
+        return $this->belongsToMany(Appointment_detail::class)
+            ->withPivot('discount_start', 'discount_end', 'discount_amount')
+            ->withTimestamps();
     }
 }

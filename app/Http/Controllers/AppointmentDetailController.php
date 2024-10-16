@@ -2,14 +2,16 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Appointment;
-use App\Models\Appointment_detail;
-use App\Models\Office;
-use App\Models\User;
-use Barryvdh\DomPDF\Facade\Pdf;
-use Dotenv\Exception\ValidationException;
 use Exception;
+use App\Models\User;
+use App\Models\Office;
+use App\Models\Therapy;
+use App\Models\Appointment;
 use Illuminate\Http\Request;
+use Barryvdh\DomPDF\Facade\Pdf;
+use App\Models\Appointment_detail;
+use Illuminate\Support\Facades\DB;
+use Dotenv\Exception\ValidationException;
 
 class AppointmentDetailController extends Controller
 {
@@ -69,8 +71,9 @@ class AppointmentDetailController extends Controller
             'appointment_id' => $id
         ];
 
+        $therapies = Therapy::all();
 
-        return view('appointment_detail')->with('patient', $details);
+        return view('appointment_detail')->with(['patient' => $details, 'therapies' => $therapies]);
     }
 
     public function total(Request $request)
@@ -78,15 +81,19 @@ class AppointmentDetailController extends Controller
         //dd($request);
 
         try {
-            // Validar los datos de entrada
             $request->validate(
                 [
                     'date' => 'required|date',
                     'appointment_id' => 'required|integer',
-                    'total' => 'required|numeric|min:1'
+                    'total' => 'required|numeric|min:1',
+                    'therapies' => 'nullable|array',
+                    'therapies.*' => 'integer|exists:therapies,id',
+                    'therapies_prices' => 'nullable|array',
+                    'therapies_prices.*' => 'numeric|min:0',
+                    'physiotherapist' => 'required|string'
                 ],
                 [
-                    'total.min' => 'No puedes dejar vacio el campo total.'
+                    'total.min' => 'No puedes dejar vacío el campo total.'
                 ]
             );
 
@@ -102,11 +109,22 @@ class AppointmentDetailController extends Controller
 
             $consulta = Appointment_detail::create([
                 'date' => $request->date,
+                'extra' => $request->extra,
                 'appointment_id' => $request->appointment_id,
                 'total' => $request->total
             ]);
 
-            //   dd($consulta);
+            // Registrar terapias elegidas en la tabla intermedia
+        if($request->has('therapies')){
+            foreach($request->therapies as $therapyId){
+                DB::table('therapies_details')->insert([
+                    'appointment_detail_id' => $consulta->id,
+                    'therapies_id' => $therapyId,
+                    'created_at' => now(),
+                    'updated_at' => now(),
+                ]);
+            }
+        }
 
             //cambiar estado de la cita
             $status = Appointment::find($request->appointment_id);
