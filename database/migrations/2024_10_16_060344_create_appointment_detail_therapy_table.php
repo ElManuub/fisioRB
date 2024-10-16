@@ -11,9 +11,9 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('therapies_details', function(Blueprint $table){
+        Schema::create('appointment_detail_therapy', function(Blueprint $table){
             $table->id();
-            $table->foreignId('therapies_id')->constrained()->onDelete('cascade');
+            $table->foreignId('therapy_id')->constrained()->onDelete('cascade');
             $table->foreignId('appointment_detail_id')->constrained()->onDelete('cascade');
             $table->decimal('discount_amount', 8, 2)->nullable(); 
             $table->date('discount_start')->nullable();  
@@ -27,6 +27,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('therapies_details');
+        Schema::dropIfExists('appointment_detail_therapy');
     }
 };

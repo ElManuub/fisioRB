@@ -12,7 +12,7 @@
     <select id="select-type" name="type" class="lg:w-1/2 sm:w-full md:w-1/2 text-sm text-black bg-white border border-b-2 border-gray-300 appearance-none focus:outline-none focus:ring-0 focus:border-blue-600 peer rounded-md" required>
       <option value="" selected disabled>Selecciona</option>
       <option value="clientes">Clientes</option>
-     <!-- <option value="consultas">Consultas</option> -->
+      <option value="consultas">Consultas</option>
       <option value="citas">Citas</option>
       <option value="ingresos">Ingresos</option>
     </select>
@@ -59,24 +59,24 @@
     </div>
   </div>
 
-  <!-- Formulario para Consultas -->
-  <div id="consultation-form" class="flex flex-col items-center justify-center py-4 gap-6 hidden">
-    <h3 class="text-base font-semibold leading-6 text-center mt-4">Buscar por cliente:</h3>
-    <div class="grid gap-4 mt-4 grid-cols-1 border p-4 w-full sm:w-full lg:w-1/2 bg-white">
-      <div>
-        <label for="consultation_client_id" class="block text-sm font-medium text-gray-700">ID de cliente:</label>
-        <input type="number" min="0" name="consultation_client_id" id="consultation_client_id" class="w-full mt-1 p-2 border border-gray-300 rounded-lg" placeholder="ID de cliente" required>
+<!-- Formulario para Consultas -->
+<div id="consultation-form" class="flex flex-col items-center justify-center py-4 gap-6 hidden">
+  <p class="m-2 text-center text-gray-500">Puedes buscar consultas de un paciente específico o en un rango de fechas determinado.</p>
+  <div class="grid gap-4 mt-2 grid-cols-1 border p-4 w-full sm:w-full lg:w-1/2 bg-white">
+    <form action="" id="form-consultation-search">
+      <label for="consultation_client_id" class="block text-sm font-medium text-gray-700">ID de paciente:</label>
+      <input type="number" min="0" name="consultation_client_id" id="consultation_client_id" class="w-full mt-1 p-2 border border-gray-300 rounded-lg" placeholder="Ingrese el ID del paciente" required>
 
-        <label for="consultation_phone" class="block mt-4 text-sm font-medium text-gray-700">Número de teléfono:</label>
-        <input type="tel" name="consultation_phone" id="consultation_phone" class="w-full mt-1 p-2 border border-gray-300 rounded-lg" placeholder="Número de teléfono" required>
+      <label for="consultation_date_start" class="block mt-4 text-sm font-medium text-gray-700">Fecha inicio:</label>
+      <input type="date" name="consultation_date_start" id="consultation_date_start" class="w-full mt-1 p-2 border border-gray-300 rounded-lg" required>
 
-        <h3 class="text-base font-semibold leading-6 text-center mt-4">Buscar por Fecha:</h3>
-        <label for="consultation_date" class="block mt-4 text-sm font-medium text-gray-700">Fecha:</label>
-        <input type="date" name="consultation_date" id="consultation_date" class="w-full mt-1 p-2 border border-gray-300 rounded-lg" required>
-      </div>
-      <button type="submit" class="w-full bg-blue-600 text-white py-2 rounded-md hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-500">Buscar</button>
-    </div>
+      <label for="consultation_date_end" class="block mt-4 text-sm font-medium text-gray-700">Fecha final:</label>
+      <input type="date" name="consultation_date_end" id="consultation_date_end" class="w-full mt-1 p-2 border border-gray-300 rounded-lg" required>
+    </form>
+    <button type="submit" class="w-full bg-blue-600 text-white py-2 rounded-md hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-500">Buscar</button>
   </div>
+</div>
+
 
   <!-- Formulario para citas -->
   <div id="appointment-div" class="flex flex-col items-center justify-center py-4 gap-6 hidden">

@@ -117,9 +117,9 @@ class AppointmentDetailController extends Controller
             // Registrar terapias elegidas en la tabla intermedia
         if($request->has('therapies')){
             foreach($request->therapies as $therapyId){
-                DB::table('therapies_details')->insert([
+                DB::table('appointment_detail_therapy')->insert([
                     'appointment_detail_id' => $consulta->id,
-                    'therapies_id' => $therapyId,
+                    'therapy_id' => $therapyId,
                     'created_at' => now(),
                     'updated_at' => now(),
                 ]);
