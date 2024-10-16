@@ -19,4 +19,8 @@ class Appointment_detail extends Model
         return $this->belongsTo(Appointment::class);
     }
 
+    public function therapies(){
+        return $this->belongsToMany(Therapy::class)->withTimestamps();
+    }
+
 }
