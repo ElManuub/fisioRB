@@ -18,74 +18,40 @@ const tableConsult = document.querySelector('#consult-form-div');
 //link
 const link = 'http://127.0.0.1:8000';
 
-//selector
+// Selector
 document.getElementById('select-type').addEventListener('change', function () {
+  // Reiniciar la visibilidad de todos los elementos
+  resetVisibility();
 
-  if (this.value === 'clientes') {
-
-    divClient.classList.remove('hidden');
-    divConsult.classList.add('hidden');
-    divIncome.classList.add('hidden');
-    divAppointments.classList.add('hidden');
-
-
-    if (!editClient.classList.contains('hidden') || !tableIncome.classList.contains('hidden') || !editAppointment.classList.contains('hidden') || !tableConsult.classList.contains('hidden')) {
-      editClient.classList.add('hidden');
-      editAppointment.classList.add('hidden');
-      tableIncome.classList.add('hidden');
-      tableConsult.classList.add('hidden');
-    }
-
-  } else if (this.value === 'consultas') {
-
-    divConsult.classList.remove('hidden');
-    divClient.classList.add('hidden');
-    divIncome.classList.add('hidden');
-    tableIncome.classList.add('hidden');
-    divAppointments.classList.add('hidden');
-
-
-    if (!editClient.classList.contains('hidden') || !tableIncome.classList.contains('hidden') || !editAppointment.classList.contains('hidden') || !tableConsult.classList.contains('hidden')) {
-      editClient.classList.add('hidden');
-      tableIncome.classList.add('hidden');
-      editAppointment.classList.add('hidden');
-      tableConsult.classList.add('hidden');
-
-
-    }
-
-  } else if (this.value === 'ingresos') {
-
-    divIncome.classList.remove('hidden');
-    divConsult.classList.add('hidden');
-    divClient.classList.add('hidden');
-    divAppointments.classList.add('hidden');
-
-    if (!editClient.classList.contains('hidden') || !editAppointment.classList.contains('hidden') || !tableConsult.classList.contains('hidden')) {
-      editClient.classList.add('hidden');
-      editAppointment.classList.add('hidden');
-      tableConsult.classList.add('hidden');
-
-
-    }
-
-  } else if (this.value === 'citas') {
-
-    divAppointments.classList.remove('hidden');
-    divClient.classList.add('hidden');
-    divConsult.classList.add('hidden');
-    divIncome.classList.add('hidden');
-
-    if (!editClient.classList.contains('hidden') || !tableIncome.classList.contains('hidden') || !tableConsult.classList.contains('hidden')) {
-      editClient.classList.add('hidden');
-      tableIncome.classList.add('hidden');
-      tableConsult.classList.add('hidden');
-
-
-    }
+  // Mostrar el elemento correspondiente según la selección
+  switch (this.value) {
+    case 'clientes':
+      divClient.classList.remove('hidden');
+      break;
+    case 'consultas':
+      divConsult.classList.remove('hidden');
+      break;
+    case 'ingresos':
+      divIncome.classList.remove('hidden');
+      break;
+    case 'citas':
+      divAppointments.classList.remove('hidden');
+      break;
   }
-
 });
+
+// Función para ocultar todos los elementos
+function resetVisibility() {
+  divClient.classList.add('hidden');
+  divConsult.classList.add('hidden');
+  divIncome.classList.add('hidden');
+  divAppointments.classList.add('hidden');
+
+  editClient.classList.add('hidden');
+  editAppointment.classList.add('hidden');
+  tableIncome.classList.add('hidden');
+  tableConsult.classList.add('hidden');
+}
 
 // buscar cliente
 document.getElementById('search-client').addEventListener('click', async () => {
@@ -355,8 +321,3 @@ document.querySelector('#form-consultation-search').addEventListener('submit', a
     console.error('Error en la solicitud:', error);
   }
 });
-
-
-
-
-
