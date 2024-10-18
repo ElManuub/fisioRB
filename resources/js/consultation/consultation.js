@@ -13,6 +13,7 @@ const divAppointments = document.getElementById('appointment-div');
 const editClient = document.querySelector('#client-div-edit');
 const tableIncome = document.querySelector('#income-form-div');
 const editAppointment = document.querySelector('#appointment-div-consult');
+const tableConsult = document.querySelector('#consult-form-div');
 
 //link
 const link = 'http://127.0.0.1:8000';
@@ -28,10 +29,11 @@ document.getElementById('select-type').addEventListener('change', function () {
     divAppointments.classList.add('hidden');
 
 
-    if (!editClient.classList.contains('hidden') || !tableIncome.classList.contains('hidden') || !editAppointment.classList.contains('hidden')) {
+    if (!editClient.classList.contains('hidden') || !tableIncome.classList.contains('hidden') || !editAppointment.classList.contains('hidden') || !tableConsult.classList.contains('hidden')) {
       editClient.classList.add('hidden');
       editAppointment.classList.add('hidden');
       tableIncome.classList.add('hidden');
+      tableConsult.classList.add('hidden');
     }
 
   } else if (this.value === 'consultas') {
@@ -43,10 +45,11 @@ document.getElementById('select-type').addEventListener('change', function () {
     divAppointments.classList.add('hidden');
 
 
-    if (!editClient.classList.contains('hidden') || !tableIncome.classList.contains('hidden') || !editAppointment.classList.contains('hidden')) {
+    if (!editClient.classList.contains('hidden') || !tableIncome.classList.contains('hidden') || !editAppointment.classList.contains('hidden') || !tableConsult.classList.contains('hidden')) {
       editClient.classList.add('hidden');
       tableIncome.classList.add('hidden');
       editAppointment.classList.add('hidden');
+      tableConsult.classList.add('hidden');
 
 
     }
@@ -58,9 +61,11 @@ document.getElementById('select-type').addEventListener('change', function () {
     divClient.classList.add('hidden');
     divAppointments.classList.add('hidden');
 
-    if (!editClient.classList.contains('hidden') || !editAppointment.classList.contains('hidden')) {
+    if (!editClient.classList.contains('hidden') || !editAppointment.classList.contains('hidden') || !tableConsult.classList.contains('hidden')) {
       editClient.classList.add('hidden');
       editAppointment.classList.add('hidden');
+      tableConsult.classList.add('hidden');
+
 
     }
 
@@ -71,9 +76,11 @@ document.getElementById('select-type').addEventListener('change', function () {
     divConsult.classList.add('hidden');
     divIncome.classList.add('hidden');
 
-    if (!editClient.classList.contains('hidden') || !tableIncome.classList.contains('hidden')) {
+    if (!editClient.classList.contains('hidden') || !tableIncome.classList.contains('hidden') || !tableConsult.classList.contains('hidden')) {
       editClient.classList.add('hidden');
       tableIncome.classList.add('hidden');
+      tableConsult.classList.add('hidden');
+
 
     }
   }
@@ -151,7 +158,7 @@ document.getElementById('search-client-edit').addEventListener('click', async ()
   }
 });
 
-//buscar consultas
+//tabla ganancias
 document.getElementById('search-income-form').addEventListener('submit', async (event) => {
   event.preventDefault();
 
@@ -185,10 +192,10 @@ document.getElementById('search-income-form').addEventListener('submit', async (
 
       // Numerar las citas
       result.data.forEach((appointmentDetail, index) => {
-        const {appointment, total, date } = appointmentDetail;
+        const { appointment, total, date } = appointmentDetail;
         const patientName = appointment.patient.name;
-        const userName = appointment.user.name; 
-        const office = appointment.user.office.name; 
+        const userName = appointment.user.name;
+        const office = appointment.user.office.name;
         const dateNow = new Date(date);
 
         incomeInfoTableBody.innerHTML += `
@@ -284,6 +291,71 @@ document.getElementById('appointment-form').addEventListener('submit', async (ev
     alert('Ocurrió un error de red. Por favor, inténtalo de nuevo más tarde.');
   }
 });
+
+// Buscar consultas terminadas
+document.querySelector('#form-consultation-search').addEventListener('submit', async (event) => {
+  event.preventDefault();
+
+  const formData = new FormData(event.target);
+  const data = Object.fromEntries(formData.entries());
+
+  try {
+    const response = await fetch(`${link}/consult`, {
+      method: 'POST',
+      body: JSON.stringify(data),
+      headers: {
+        'Accept': 'application/json',
+        'Content-Type': 'application/json',
+        'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').getAttribute('content')
+      },
+    });
+
+    const result = await response.json();
+
+    if (response.ok) {
+      console.log(result);
+      const table = document.querySelector('#consult-info');
+      divConsult.classList.add('hidden');
+      document.querySelector('#consult-form-div').classList.remove('hidden');
+      table.innerHTML = '';
+
+      result.data.forEach(detail => {
+        const { appointment, date, id } = detail;
+        const employee = appointment.user.name;
+        const office = appointment.patient.office.name;
+        const patient = appointment.patient.name;
+        const dateNow = new Date(date);
+
+
+        table.innerHTML += `
+        <tr class="hover:bg-gray-100 hover:scale-105 transition-transform cursor-pointer">
+          <td class="border border-gray-300 p-2 text-center font-semibold">${id}</td> <!-- Numeración -->
+          <td class="border border-gray-300 p-2">${patient}</td>
+          <td class="border border-gray-300 p-2">${employee}</td>
+          <td class="border border-gray-300 p-2">${office}</td>
+          <td class="border border-gray-300 p-2 text-center">${dateNow.toLocaleDateString('en-CA')}</td>
+          <td class="border border-gray-300 p-2 text-center">
+            <form action="${link}/consult/${id}" method="get">
+              <button type="submit" class="bg-blue-500 text-white py-1 px-3 rounded hover:bg-blue-600">
+                ver
+              </button>
+            </form>
+          </td>
+        </tr>`;
+      
+      
+
+
+      });
+
+    } else {
+      console.error('Error:', result.error);
+    }
+  } catch (error) {
+    console.error('Error en la solicitud:', error);
+  }
+});
+
 
 
 

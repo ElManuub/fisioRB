@@ -59,23 +59,48 @@
     </div>
   </div>
 
-<!-- Formulario para Consultas -->
-<div id="consultation-form" class="flex flex-col items-center justify-center py-4 gap-6 hidden">
-  <p class="m-2 text-center text-gray-500">Puedes buscar consultas de un paciente específico o en un rango de fechas determinado.</p>
-  <div class="grid gap-4 mt-2 grid-cols-1 border p-4 w-full sm:w-full lg:w-1/2 bg-white">
-    <form action="" id="form-consultation-search">
-      <label for="consultation_client_id" class="block text-sm font-medium text-gray-700">ID de paciente:</label>
-      <input type="number" min="0" name="consultation_client_id" id="consultation_client_id" class="w-full mt-1 p-2 border border-gray-300 rounded-lg" placeholder="Ingrese el ID del paciente" required>
+  <!-- Formulario para Consultas -->
+  <div id="consultation-form" class="flex flex-col items-center justify-center py-4 gap-6 hidden">
+    <p class="m-2 text-center text-gray-500">Puedes buscar consultas de un paciente específico o en un rango de fechas determinado.</p>
+    <div class="grid gap-4 mt-2 grid-cols-1 border p-4 w-full sm:w-full lg:w-1/2 bg-white">
+      <form action="" id="form-consultation-search">
+        @csrf
+        <label for="consultation_client_id" class="block text-sm font-medium text-gray-700">ID de paciente:</label>
+        <input type="number" min="0" name="consultation_patient_id" id="consultation_client_id" class="w-full mt-1 p-2 border border-gray-300 rounded-lg" placeholder="Ingrese el ID del paciente">
 
-      <label for="consultation_date_start" class="block mt-4 text-sm font-medium text-gray-700">Fecha inicio:</label>
-      <input type="date" name="consultation_date_start" id="consultation_date_start" class="w-full mt-1 p-2 border border-gray-300 rounded-lg" required>
+        <label for="consultation_date_start" class="block mt-4 text-sm font-medium text-gray-700">Fecha inicio:</label>
+        <input type="date" name="consultation_date_start" id="consultation_date_start" class="w-full mt-1 p-2 border border-gray-300 rounded-lg" required>
 
-      <label for="consultation_date_end" class="block mt-4 text-sm font-medium text-gray-700">Fecha final:</label>
-      <input type="date" name="consultation_date_end" id="consultation_date_end" class="w-full mt-1 p-2 border border-gray-300 rounded-lg" required>
-    </form>
-    <button type="submit" class="w-full bg-blue-600 text-white py-2 rounded-md hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-500">Buscar</button>
+        <label for="consultation_date_end" class="block mt-4 text-sm font-medium text-gray-700">Fecha final:</label>
+        <input type="date" name="consultation_date_end" id="consultation_date_end" class="w-full mt-1 p-2 border border-gray-300 rounded-lg" required>
+
+        <button type="submit" class="w-full bg-blue-600 text-white py-2 rounded-md hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-500">Buscar</button>
+      </form>
+    </div>
   </div>
-</div>
+
+    <!-- tabla de consultas -->
+    <div id="consult-form-div" class="flex flex-col items-center justify-center py-2 gap-6 hidden">
+    <h3 class="text-base font-semibold leading-6 text-center mt-4">Consultas:</h3>
+
+    <div class="grid gap-4 mt-4 grid-cols-1 border rounded-md lg:p-4 w-full sm:w-full lg:w-1/2 bg-white">
+      <table id="consult-table" class="min-w-full border-collapse border border-gray-300">
+        <thead>
+          <tr class="bg-gray-200">
+            <th class="border border-gray-300 p-2">No</th>
+            <th class="border border-gray-300 p-2">Paciente</th>
+            <th class="border border-gray-300 p-2">Teraputa</th>
+            <th class="border border-gray-300 p-2">Sucursal</th>
+            <th class="border border-gray-300 p-2">Fecha</th>
+            <th class="border border-gray-300 p-2">Accion</th>
+          </tr>
+        </thead>
+        <tbody id="consult-info">
+
+        </tbody>
+      </table>
+    </div>
+  </div>
 
 
   <!-- Formulario para citas -->
@@ -85,13 +110,13 @@
       <form id="appointment-form">
         @csrf
         <select id="select-type" name="type" class="lg:w-1/2 sm:w-full text-sm text-black bg-white border border-b-2 border-gray-300 appearance-none focus:outline-none focus:ring-0 focus:border-blue-600 peer rounded-md" required>
-        <option value="" selected disabled>Selecciona</option>
-        <option value="">General</option>
-        @foreach ($therapists as $therapist)
-        @if ($therapist['status'] === 'activo')
-        <option value="{{ $therapist['id'] }}">{{ $therapist['name'] }}</option> 
-        @endif
-        @endforeach  
+          <option value="" selected disabled>Selecciona</option>
+          <option value="">General</option>
+          @foreach ($therapists as $therapist)
+          @if ($therapist['status'] === 'activo')
+          <option value="{{ $therapist['id'] }}">{{ $therapist['name'] }}</option>
+          @endif
+          @endforeach
         </select>
         <label for="appointment_date_inicio" class="block mt-4 text-sm font-medium text-gray-700">Fecha inicio:</label>
         <input type="date" name="consultation_date_inicio" id="appointment_date_inicio" class="w-full mt-1 p-2 border border-gray-300 rounded-lg" required>

@@ -45,7 +45,8 @@ Route::middleware('auth')->group(function () {
     Route::post('consultation/appointments', [AppointmentController::class, 'consultAppointment'])->name('appointments');
 
     //completed 
-    Route::get('/consult', [PatientConsultationController::class, 'index'])->name('consult.complete');
+    Route::post('/consult', [PatientConsultationController::class, 'index'])->name('consult.complete');
+    Route::get('/consult/{id}', [PatientConsultationController::class, 'ticket'])->name('consult.ticket');
 
     //delete account
     Route::post('/account/delete', [UserController::class, 'deleteUser'])->name('account.deleteUser');
