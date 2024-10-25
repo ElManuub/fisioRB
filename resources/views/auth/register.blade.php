@@ -1,9 +1,15 @@
 <x-app-layout>
     @vite(['resources/js/users/selectUser.js'])
-    <x-slot name="header">
-        <h2 class="font-semibold text-xl text-gray-800 leading-tight text-center sm:text-left">
-            {{ __('Registro de nuevos usuarios') }}
-        </h2>
+    <x-slot name="header" class="bg-black-500">
+                    <x-nav-link :href="route('register')" :active="request()->routeIs('register')">
+                        {{ __('Usuarios') }}
+                    </x-nav-link>
+                    <x-nav-link :href="route('therapies')" :active="request()->routeIs('therapies')">
+                        {{ __('Terapias') }}
+                    </x-nav-link>
+                    <x-nav-link :href="route('consultation.appointments')" :active="request()->routeIs('consultation.appointments')">
+                        {{ __('Sucursales') }}
+                    </x-nav-link>
     </x-slot>
 
     <div class="flex flex-col items-center justify-center pt-4 gap-6">

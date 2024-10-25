@@ -6,7 +6,8 @@ use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\AppointmentController;
 use App\Http\Controllers\AppointmentDetailController;
 use App\Http\Controllers\PatientConsultationController;
-use App\Http\Controllers\PDFController; 
+use App\Http\Controllers\PDFController;
+use App\Http\Controllers\TherapyController;
 use App\Http\Controllers\UserController;
 
 Route::get('/', function () {
@@ -43,6 +44,9 @@ Route::middleware('auth')->group(function () {
     Route::get('/consultation', [AppointmentDetailController::class, 'consultation'])->name('consultation.appointments');
     Route::post('income/appointments', [AppointmentDetailController::class, 'showConsultations'])->name('income.appointments');
     Route::post('consultation/appointments', [AppointmentController::class, 'consultAppointment'])->name('appointments');
+
+    //therapies
+    Route::get('/therapies', [TherapyController::class, 'index'])->name('therapies');
 
     //completed 
     Route::post('/consult', [PatientConsultationController::class, 'index'])->name('consult.complete');
