@@ -47,6 +47,10 @@ Route::middleware('auth')->group(function () {
 
     //therapies
     Route::get('/therapies', [TherapyController::class, 'index'])->name('therapies');
+    Route::get('/therapies/{id}', [TherapyController::class, 'edit'])->name('therapy.edit');
+    Route::post('/therapies/update', [TherapyController::class, 'update'])->name('therapies.update');
+    Route::delete('/therapies/delete/{id}', [TherapyController::class, 'destroy'])->name('therapy.destroy');
+    Route::get('/therapy/store', [TherapyController::class, 'store'])->name('therapy.store');
 
     //completed 
     Route::post('/consult', [PatientConsultationController::class, 'index'])->name('consult.complete');
