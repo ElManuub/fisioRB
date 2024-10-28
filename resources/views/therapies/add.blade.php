@@ -29,7 +29,7 @@
     @endif
 
   <div class="w-full max-w-md px-6 py-4 bg-white rounded-lg shadow-md">
-    <form action="{{ route('therapies.update') }}" method="POST" class="space-y-4">
+    <form action="{{ route('therapy.store') }}" method="POST" class="space-y-4">
       @csrf
       <div class="flex flex-col">
         <label for="name_therapy" class="text-gray-600 font-medium">Nombre:</label>

@@ -67,8 +67,39 @@ class TherapyController extends Controller
         }
     }
 
-    public function store(){
+    public function create(){
         return view('therapies.add');
+    }
+
+    public function store(Request $request){
+        try {
+            $therapy = $request->validate([
+                'name' => 'required|string|min:1',
+                'price' => 'required|numeric|min:1',
+                'password' => 'required'
+            ]);
+    
+            if(!Hash::check($therapy['password'], auth()->user()->password)){
+                session()->flash('error', 'Contraseña incorrecta');
+                    return redirect()->back();
+            }
+    
+            Therapy::create([
+                'name' => $therapy['name'],
+                'price' => $therapy['price']
+            ]);
+
+            session()->flash('success', 'Terapia agregada con éxito!');
+            return redirect()->route('therapies');
+
+        } catch (ValidationException $err) {
+            session()->flash('error', 'Datos inválidos');
+            return redirect()->back();
+        } catch (Exception $exception) {
+            session()->flash('error', 'Ocurrió un error al actualizar la terapia: ' . $exception->getMessage());
+            return redirect()->back();
+        }
+        
     }
 
     // public function destroy($id)

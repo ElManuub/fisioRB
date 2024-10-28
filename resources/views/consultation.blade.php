@@ -74,7 +74,7 @@
         <label for="consultation_date_end" class="block mt-4 text-sm font-medium text-gray-700">Fecha final:</label>
         <input type="date" name="consultation_date_end" id="consultation_date_end" class="w-full mt-1 p-2 border border-gray-300 rounded-lg" required>
 
-        <button type="submit" class="w-full bg-blue-600 text-white py-2 rounded-md hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-500">Buscar</button>
+        <button type="submit" class="w-full bg-blue-600 text-white py-2 mt-4 rounded-md hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-500">Buscar</button>
       </form>
     </div>
   </div>

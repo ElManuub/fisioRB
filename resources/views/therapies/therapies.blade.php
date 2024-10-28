@@ -11,7 +11,7 @@
     </x-nav-link>
   </x-slot>
 
-  <div class="flex flex-col items-center justify-center pt-4 gap-6 w-full lg:px-12">
+  <div class="flex flex-col items-center justify-center pt-4 py-4 gap-6 w-full lg:px-12">
     <h3 class="mb-2 text-center text-lg font-semibold">Terapias</h3>
 
     @if (session('success'))
@@ -62,7 +62,9 @@
         </tbody>
       </table>
     </div>
-    <x-primary-button><a href="{{ route('therapy.store')}}">Agregar</a></x-primary-botton>
+    <x-primary-button>
+      <a href="{{ route('therapy.create')}}">Agregar</a>
+    </x-primary-botton>
   </div>
 
 </x-app-layout>
