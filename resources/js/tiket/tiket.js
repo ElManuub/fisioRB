@@ -27,7 +27,11 @@ firstDay?.addEventListener('change', (e) => {
 // Evento para los checkboxes
 checks.forEach(terapia => {
   terapia.addEventListener('change', (event) => {
-    const price = parseFloat(terapia.dataset.price) || 0;
+    // Revisar si hay precio con descuento, de lo contrario usar el precio normal
+    const price = terapia.dataset.discountedPrice 
+        ? parseFloat(terapia.dataset.discountedPrice) 
+        : parseFloat(terapia.dataset.price) || 0;
+    
     if (terapia.checked) {
       subtotal += price; // Sumar si se selecciona
     } else {

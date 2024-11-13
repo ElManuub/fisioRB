@@ -46,19 +46,32 @@
           <tr class="border-b border-gray-200 hover:bg-gray-100">
             <td class="py-2 px-2">{{$therapy->id}}</td>
             <td class="py-2 px-2">{{$therapy->name}}</td>
-            <td class="py-2 px-2">{{$therapy->price}}</td>
-            <!-- Enlace para editar -->
-            <td class="py-2 px-2">
-              <a href="{{ route('therapy.edit', $therapy->id) }}">
-                <img class="hover:scale-125 cursor-pointer transition-transform" src="{{ asset('images-iconos/boton-editar.png') }}" alt="editar" width="25px">
-              </a>
-            </td>
-           <!-- Enlace para agregar un descuento-->
-            <td class="py-2 px-2">
-              <a href="{{ route('therapies.discount', $therapy->id) }}">
-                <img class="hover:scale-125 cursor-pointer transition-transform" src="{{ asset('images-iconos/discount.png') }}" alt="descuento" width="25px">
-              </a>
-            </td>
+
+            @if ($therapy->discount_amount == 0 || $therapy->discount_end <= now())
+              {{-- Precio sin descuento --}}
+              <td class="py-2 px-2">${{ $therapy->price }}</td>
+              @else
+              {{-- Precio con descuento --}}
+              <td class="py-2 px-2">
+                <del>${{ $therapy->price }}</del>
+                ${{ number_format($therapy->price * (1 - $therapy->discount_amount / 100), 2) }}
+              </td>
+              @endif
+
+
+
+              <!-- Enlace para editar -->
+              <td class="py-2 px-2">
+                <a href="{{ route('therapy.edit', $therapy->id) }}">
+                  <img class="hover:scale-125 cursor-pointer transition-transform" src="{{ asset('images-iconos/boton-editar.png') }}" alt="editar" width="25px">
+                </a>
+              </td>
+              <!-- Enlace para agregar un descuento-->
+              <td class="py-2 px-2">
+                <a href="{{ route('therapies.discount', $therapy->id) }}">
+                  <img class="hover:scale-125 cursor-pointer transition-transform" src="{{ asset('images-iconos/discount.png') }}" alt="descuento" width="25px">
+                </a>
+              </td>
           </tr>
           @endforeach
           @else
@@ -71,7 +84,7 @@
     </div>
     <x-primary-button>
       <a href="{{ route('therapy.create')}}">Agregar</a>
-    </x-primary-botton>
+      </x-primary-botton>
   </div>
 
 </x-app-layout>

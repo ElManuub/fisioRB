@@ -95,28 +95,29 @@
       <div class="bg-white p-4 border border-gray-300 rounded-md mt-2">
         @foreach($therapies as $therapy)
         <div class="flex items-center">
-          <input id="{{ strtolower(str_replace(' ', '_', $therapy->name)) }}"
+          <input
+            id="{{ strtolower(str_replace(' ', '_', $therapy->name)) }}"
             type="checkbox"
             value="{{ $therapy->id }}"
             name="therapies[]"
-            data-price="{{ $therapy->price }}" 
-          class="text-blue-600 focus:ring-blue-600" />
-          <label for="{{ strtolower(str_replace(' ', '_', $therapy->name)) }}"
-            class="ml-2 text-sm text-gray-700">
-            {{ $therapy->name }} (${{ $therapy->price }})
+            data-price="{{ $therapy->price }}"
+            @if ($therapy->discount_amount > 0 && $therapy->discount_end > now())
+          data-discounted-price="{{ number_format($therapy->price * (1 - $therapy->discount_amount / 100), 2) }}"
+          @endif
+          class="text-blue-600 focus:ring-blue-600"
+          />
+          <label for="{{ strtolower(str_replace(' ', '_', $therapy->name)) }}" class="ml-2 text-sm text-gray-700">
+            {{ $therapy->name }}
+            @if ($therapy->discount_amount > 0 && $therapy->discount_end > now())
+            <del>${{ $therapy->price }}</del> ${{ number_format($therapy->price * (1 - $therapy->discount_amount / 100), 2) }}
+            @else
+            (${{ $therapy->price }})
+            @endif
           </label>
         </div>
         @endforeach
         <input name="appointment_id" value="{{ $patient['appointment_id'] }}" hidden>
       </div>
-    </div>
-
-    <!-- Campo de total -->
-    <div class="relative z-0 w-full mb-5 group">
-      <label class="block text-sm text-gray-500 peer-focus:text-blue-600">
-        Total:
-      </label>
-      <input id="total" type="text" name="total" value="0.00" readonly class="bg-gray-100 border-gray-300 rounded-md p-2">
     </div>
 
     <!-- Extra -->
@@ -125,6 +126,14 @@
         Extra:
       </label>
       <input id="extra" type="number" name="extra" step="0.01" min="0" class="border-gray-300 rounded-md p-2">
+    </div>
+
+    <!-- Campo de total -->
+    <div class="relative z-0 w-full mb-5 group">
+      <label class="block text-sm text-gray-500 peer-focus:text-blue-600">
+        Total:
+      </label>
+      <input id="total" type="text" name="total" value="0.00" readonly class="bg-gray-100 border-gray-300 rounded-md p-2">
     </div>
 
     <!-- Enviar -->
