@@ -41,14 +41,24 @@
             <hr>
             <ul class="list-disc list-inside mb-4">
                 @foreach ($consultationDetail->therapies as $therapy)
-                    <li class="text-gray-700">{{ $therapy->name }} - ${{ number_format($therapy->price, 2) }}</li>
+                <li class="text-gray-700">{{ $therapy->name }} -
+                    @if ($therapy->discount_amount == 0 || $therapy->discount_end <= now())
+                        {{-- Precio sin descuento --}}
+                        ${{ $therapy->price }}
+                    @else
+                        {{-- Precio con descuento --}}
+                      
+                            <del>${{ $therapy->price }}</del>
+                            ${{ number_format($therapy->price * (1 - $therapy->discount_amount / 100), 2) }}
+                            (Descuento del %{{ number_format($therapy->discount_amount, 0) }})                       
+                    @endif
                 @endforeach
             </ul>
             <p class="text-gray-700">
                 @if ($query_type >= 800)
-                    <strong>Primer consulta:</strong> ${{ $query_type }}
-                    @else
-                    <strong>Consulta normal:</strong> ${{ $query_type }}
+                <strong>Primer consulta:</strong> ${{ $query_type }}
+                @else
+                <strong>Consulta normal:</strong> ${{ $query_type }}
                 @endif
             </p>
             <p class="text-gray-700"><strong>Extra:</strong> ${{ $extra ?? 'N/A' }}</p>
