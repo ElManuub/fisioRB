@@ -90,10 +90,12 @@ class AppointmentDetailController extends Controller
                     'therapies.*' => 'integer|exists:therapies,id',
                     'therapies_prices' => 'nullable|array',
                     'therapies_prices.*' => 'numeric|min:0',
-                    'physiotherapist' => 'required|string'
+                    'physiotherapist' => 'required|string',
+                    'query_type' => 'required|numeric|min:0'
                 ],
                 [
-                    'total.min' => 'No puedes dejar vacío el campo total.'
+                    'total.min' => 'No puedes dejar vacío el campo total.',
+                    'query_type' => 'Tienes que especificar el tipo decita'
                 ]
             );
 
@@ -111,7 +113,8 @@ class AppointmentDetailController extends Controller
                 'date' => $request->date,
                 'extra' => $request->extra,
                 'appointment_id' => $request->appointment_id,
-                'total' => $request->total
+                'total' => $request->total,
+                'query_type' => $request->query_type
             ]);
 
             // Registrar terapias elegidas en la tabla intermedia

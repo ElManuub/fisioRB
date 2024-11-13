@@ -44,6 +44,13 @@
                     <li class="text-gray-700">{{ $therapy->name }} - ${{ number_format($therapy->price, 2) }}</li>
                 @endforeach
             </ul>
+            <p class="text-gray-700">
+                @if ($query_type >= 800)
+                    <strong>Primer consulta:</strong> ${{ $query_type }}
+                    @else
+                    <strong>Consulta normal:</strong> ${{ $query_type }}
+                @endif
+            </p>
             <p class="text-gray-700"><strong>Extra:</strong> ${{ $extra ?? 'N/A' }}</p>
             <p class="text-xl font-bold text-gray-800 mt-4"><strong>Total:</strong> ${{ number_format($total, 2) }}</p>
         </div>

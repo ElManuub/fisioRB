@@ -13,7 +13,8 @@ class Appointment_detail extends Model
         'date',
         'appointment_id',
         'total',
-        'extra'
+        'extra',
+        'query_type'
     ];
 
     public function appointment(){

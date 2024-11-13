@@ -46,7 +46,7 @@
                         </x-dropdown-link>
                         @can('register-employees')
                         <x-dropdown-link :href="route('register')" :active="request()->routeIs('register')">
-                            {{ __('Usuarios') }}
+                            {{ __('Administrador') }}
                         </x-dropdown-link>
                         @endcan
 
@@ -103,7 +103,7 @@
                 </x-responsive-nav-link>
                 @can('register-employees')
                 <x-responsive-nav-link :href="route('register')" :active="request()->routeIs('register')">
-                    {{ __('Usuarios') }}
+                    {{ __('Administrador') }}
                 </x-responsive-nav-link>
                 @endcan
 

@@ -61,12 +61,10 @@
 
   <!-- Formulario para Consultas -->
   <div id="consultation-form" class="flex flex-col items-center justify-center py-4 gap-6 hidden">
-    <p class="m-2 text-center text-gray-500">Puedes buscar consultas de un paciente específico o en un rango de fechas determinado.</p>
+    <p class="m-2 text-center text-gray-500">Puedes buscar consultas en un rango de fechas determinado.</p>
     <div class="grid gap-4 mt-2 grid-cols-1 border p-4 w-full sm:w-full lg:w-1/2 bg-white">
       <form action="" id="form-consultation-search">
         @csrf
-        <label for="consultation_client_id" class="block text-sm font-medium text-gray-700">ID de paciente:</label>
-        <input type="number" min="0" name="consultation_patient_id" id="consultation_client_id" class="w-full mt-1 p-2 border border-gray-300 rounded-lg" placeholder="Ingrese el ID del paciente">
 
         <label for="consultation_date_start" class="block mt-4 text-sm font-medium text-gray-700">Fecha inicio:</label>
         <input type="date" name="consultation_date_start" id="consultation_date_start" class="w-full mt-1 p-2 border border-gray-300 rounded-lg" required>

@@ -79,7 +79,7 @@
       <label for="first_pay" class="block text-sm text-gray-500 peer-focus:text-blue-600">
         Es primer Consulta
       </label>
-      <select name="first_pay" id="first_pay" class="block py-2.5 px-0 w-full text-sm text-gray-900 border-0 border-b-2 border-gray-300 focus:outline-none focus:ring-0 focus:border-blue-600 peer" required>
+      <select name="query_type" id="first_pay" class="block py-2.5 px-0 w-full text-sm text-gray-900 border-0 border-b-2 border-gray-300 focus:outline-none focus:ring-0 focus:border-blue-600 peer" required>
 
         <option value="0">selecciona</option>
         <option value="800">Si</option>

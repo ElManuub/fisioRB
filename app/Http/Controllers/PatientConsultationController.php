@@ -66,9 +66,12 @@ class PatientConsultationController extends Controller
         'user' => $appointment->user,
         'total' => $consultationDetail->total,
         'extra' => $consultationDetail->extra,
+        'query_type' => $consultationDetail->query_type
     ];
 
     $pdf = Pdf::loadView('exports_tables.ticket', $data);
+
+    //dd($data);
 
     return $pdf->stream('Comprobante_' . now()->format('Y-m-d') . '.pdf');
 }

@@ -16,6 +16,7 @@ return new class extends Migration
             $table->dateTime('date');
             $table->decimal('total', 10, 2);
             $table->decimal('extra', 10, 2)->nullable();
+            $table->decimal('query_type', 10, 2);
             $table->foreignId('appointment_id')->constrained()->onDelete('cascade');
             $table->timestamps();
         });
