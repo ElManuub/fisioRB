@@ -37,6 +37,7 @@
             <th class="py-2 px-2">Nombre</th>
             <th class="py-2 px-2">Precio</th>
             <th class="py-2 px-2">Editar</th>
+            <th class="py-2 px-2">Descuento</th>
           </tr>
         </thead>
         <tbody class="text-gray-600 text-sm font-light">
@@ -50,6 +51,12 @@
             <td class="py-2 px-2">
               <a href="{{ route('therapy.edit', $therapy->id) }}">
                 <img class="hover:scale-125 cursor-pointer transition-transform" src="{{ asset('images-iconos/boton-editar.png') }}" alt="editar" width="25px">
+              </a>
+            </td>
+           <!-- Enlace para agregar un descuento-->
+            <td class="py-2 px-2">
+              <a href="{{ route('therapies.discount', $therapy->id) }}">
+                <img class="hover:scale-125 cursor-pointer transition-transform" src="{{ asset('images-iconos/discount.png') }}" alt="descuento" width="25px">
               </a>
             </td>
           </tr>

@@ -52,6 +52,9 @@ Route::middleware('auth')->group(function () {
     Route::delete('/therapies/delete/{id}', [TherapyController::class, 'destroy'])->name('therapy.destroy');
     Route::get('/therapy/create', [TherapyController::class, 'create'])->name('therapy.create');
     Route::post('/therapy/store', [TherapyController::class, 'store'])->name('therapy.store');
+    //discount therapy
+    Route::get('therapies/discount/{id}', [TherapyController::class, 'discount'])->name('therapies.discount');
+    Route::post('therapies/add', [TherapyController::class, 'discountAdd'])->name('therapies.discount.add');
 
     //completed 
     Route::post('/consult', [PatientConsultationController::class, 'index'])->name('consult.complete');

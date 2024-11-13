@@ -15,9 +15,6 @@ return new class extends Migration
             $table->id();
             $table->foreignId('therapy_id')->constrained()->onDelete('cascade');
             $table->foreignId('appointment_detail_id')->constrained()->onDelete('cascade');
-            $table->decimal('discount_amount', 8, 2)->nullable(); 
-            $table->date('discount_start')->nullable();  
-            $table->date('discount_end')->nullable(); 
             $table->timestamps();
         });
     }
